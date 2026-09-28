@@ -1,0 +1,28 @@
+# Python 缓存与构建产物
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# 编辑器与本地历史备份
+.idea/
+.vscode/
+.history/
+
+# 模型权重（体积过大，不入库，另行存放）
+*.pt
+*.pth
+*.onnx
+
+# 栅格数据与波段提取结果（数据文件不入库）
+*.tif
+*.tiff
+DataProcessing/gee/band_extraction/*.csv
+
+# 向量库与本地数据库
+chroma_db/
+*.sqlite3
+
+# 嵌套仓库历史备份（迁移遗留，见 .git-backups）
+.git-backups/

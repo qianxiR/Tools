@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "folder_path": "projects/applied-pipe-453411-k9/assets/xz",
+    "extract_time": "2025-11-13T15:21:57.868875",
+    "recursive": true,
+    "asset_type_filter": null,
+    "total_count": 2
+  },
+  "statistics": {
+    "total_count": 2,
+    "by_type": {
+      "TABLE": {
+        "count": 2,
+        "size_bytes": 0,
+        "size_mb": 0.0,
+        "size_gb": 0.0
+      }
+    },
+    "total_size_bytes": 0,
+    "total_size_mb": 0.0,
+    "total_size_gb": 0.0
+  },
+  "assets": [
+    {
+      "id": "projects/applied-pipe-453411-k9/assets/xz/kt",
+      "type": "TABLE",
+      "name": "kt",
+      "update_time": "2025-11-12T07:56:10.070583Z"
+    },
+    {
+      "id": "projects/applied-pipe-453411-k9/assets/xz/yssk",
+      "type": "TABLE",
+      "name": "yssk",
+      "update_time": "2025-11-12T07:56:13.351509Z"
+    }
+  ]
+}

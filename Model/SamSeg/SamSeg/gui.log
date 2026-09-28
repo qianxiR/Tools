@@ -1,0 +1,144 @@
+2026-06-04 18:02:51,361 [MainThread] INFO gui.py:730 - ========================================
+2026-06-04 18:02:51,361 [MainThread] INFO gui.py:731 - SegEarth-OV3 GUI 启动 (SAM 3)
+2026-06-04 18:02:51,361 [MainThread] INFO gui.py:732 - 参数: ckpt=sam3/sam3.pt, device=cuda, conf=0.50
+2026-06-04 18:02:51,361 [MainThread] INFO gui.py:733 - BPE: sam3/assets/bpe_simple_vocab_16e6.txt.gz
+2026-06-04 18:02:51,361 [MainThread] INFO gui.py:734 - 类别文件: None
+2026-06-04 18:02:51,362 [MainThread] INFO gui.py:735 - CUDA 可用: True
+2026-06-04 18:02:51,363 [MainThread] INFO gui.py:737 - GPU: NVIDIA GeForce RTX 5090 D
+2026-06-04 18:02:51,363 [MainThread] INFO gui.py:738 - GPU 显存: 31.8 GB
+2026-06-04 18:02:51,363 [MainThread] INFO gui.py:739 - ========================================
+2026-06-04 18:02:51,454 [MainThread] INFO gui.py:745 - 窗口已显示，进入事件循环
+2026-06-04 18:02:54,651 [MainThread] INFO gui.py:517 - === 开始加载 SAM 3 模型 ===
+2026-06-04 18:02:54,651 [MainThread] INFO gui.py:518 - ckpt=sam3/sam3.pt, bpe=sam3/assets/bpe_simple_vocab_16e6.txt.gz, device=cuda, conf=0.50
+2026-06-04 18:02:54,654 [Dummy-1] INFO gui.py:92 - ModelLoadWorker 开始执行, ckpt=sam3/sam3.pt, device=cuda
+2026-06-04 18:02:55,939 [Dummy-1] DEBUG nms.py:16 - Falling back to triton or CPU mask NMS implementation -- please install `torch_generic_nms` via
+	pip uninstall -y torch_generic_nms; TORCH_CUDA_ARCH_LIST="8.0 9.0" pip install git+https://github.com/ronghanghu/torch_generic_nms
+2026-06-04 18:02:56,836 [MainThread] DEBUG gui.py:467 - 文件浏览对话框: title='选择图片', target=
+2026-06-04 18:03:02,700 [Dummy-1] INFO gui.py:98 - ModelLoadWorker 完成, 耗时 8.05 秒
+2026-06-04 18:03:02,700 [MainThread] INFO gui.py:536 - === SAM 3 模型加载完成 ===
+2026-06-04 18:03:05,456 [MainThread] INFO gui.py:474 - 选择图片: E:/xzkjxm/VQA/SamSeg/resources/1.png
+2026-06-04 18:03:05,460 [MainThread] DEBUG PngImagePlugin.py:201 - STREAM b'IHDR' 16 13
+2026-06-04 18:03:05,461 [MainThread] DEBUG PngImagePlugin.py:201 - STREAM b'sRGB' 41 1
+2026-06-04 18:03:05,461 [MainThread] DEBUG PngImagePlugin.py:201 - STREAM b'gAMA' 54 4
+2026-06-04 18:03:05,461 [MainThread] DEBUG PngImagePlugin.py:201 - STREAM b'pHYs' 70 9
+2026-06-04 18:03:05,461 [MainThread] DEBUG PngImagePlugin.py:201 - STREAM b'IDAT' 91 65445
+2026-06-04 18:03:14,856 [MainThread] INFO gui.py:553 - === 开始分割 ===
+2026-06-04 18:03:14,857 [MainThread] INFO gui.py:554 - 图片: E:/xzkjxm/VQA/SamSeg/resources/1.png
+2026-06-04 18:03:14,857 [MainThread] INFO gui.py:555 - 类别提示: 'building'
+2026-06-04 18:03:14,857 [MainThread] INFO gui.py:576 - 类别数: 2, 查询数: 1
+2026-06-04 18:03:14,860 [Dummy-2] INFO gui.py:150 - InferenceWorker 开始执行, image=E:/xzkjxm/VQA/SamSeg/resources/1.png, num_cls=2, num_queries=1
+2026-06-04 18:03:14,860 [Dummy-2] DEBUG PngImagePlugin.py:201 - STREAM b'IHDR' 16 13
+2026-06-04 18:03:14,861 [Dummy-2] DEBUG PngImagePlugin.py:201 - STREAM b'sRGB' 41 1
+2026-06-04 18:03:14,861 [Dummy-2] DEBUG PngImagePlugin.py:201 - STREAM b'gAMA' 54 4
+2026-06-04 18:03:14,861 [Dummy-2] DEBUG PngImagePlugin.py:201 - STREAM b'pHYs' 70 9
+2026-06-04 18:03:14,861 [Dummy-2] DEBUG PngImagePlugin.py:201 - STREAM b'IDAT' 91 65445
+2026-06-04 18:03:14,879 [Dummy-2] INFO gui.py:162 -     图片尺寸: 1486x782
+2026-06-04 18:03:14,879 [Dummy-2] INFO gui.py:165 -     开始多轮迭代推理 (max=10, target=95%)...
+2026-06-04 18:03:16,117 [Dummy-2] INFO gui.py:176 -     后处理完成
+2026-06-04 18:03:16,160 [Dummy-2] INFO gui.py:207 -     推理完成, 耗时 1.30 秒, 检测到类别: [1]
+2026-06-04 18:03:16,161 [MainThread] INFO gui.py:662 - === 推理结果返回 ===
+2026-06-04 18:03:16,171 [MainThread] INFO gui.py:699 - 分割完成, 检测到类别: [1]
+2026-06-04 18:03:41,579 [MainThread] INFO gui.py:553 - === 开始分割 ===
+2026-06-04 18:03:41,579 [MainThread] INFO gui.py:554 - 图片: E:/xzkjxm/VQA/SamSeg/resources/1.png
+2026-06-04 18:03:41,579 [MainThread] INFO gui.py:555 - 类别提示: 'building'
+2026-06-04 18:03:41,579 [MainThread] INFO gui.py:576 - 类别数: 2, 查询数: 1
+2026-06-04 18:03:41,582 [Dummy-3] INFO gui.py:150 - InferenceWorker 开始执行, image=E:/xzkjxm/VQA/SamSeg/resources/1.png, num_cls=2, num_queries=1
+2026-06-04 18:03:41,583 [Dummy-3] DEBUG PngImagePlugin.py:201 - STREAM b'IHDR' 16 13
+2026-06-04 18:03:41,583 [Dummy-3] DEBUG PngImagePlugin.py:201 - STREAM b'sRGB' 41 1
+2026-06-04 18:03:41,583 [Dummy-3] DEBUG PngImagePlugin.py:201 - STREAM b'gAMA' 54 4
+2026-06-04 18:03:41,583 [Dummy-3] DEBUG PngImagePlugin.py:201 - STREAM b'pHYs' 70 9
+2026-06-04 18:03:41,583 [Dummy-3] DEBUG PngImagePlugin.py:201 - STREAM b'IDAT' 91 65445
+2026-06-04 18:03:41,601 [Dummy-3] INFO gui.py:162 -     图片尺寸: 1486x782
+2026-06-04 18:03:41,601 [Dummy-3] INFO gui.py:165 -     开始多轮迭代推理 (max=10, target=95%)...
+2026-06-04 18:03:42,538 [Dummy-3] INFO gui.py:176 -     后处理完成
+2026-06-04 18:03:42,581 [Dummy-3] INFO gui.py:207 -     推理完成, 耗时 0.99 秒, 检测到类别: [1]
+2026-06-04 18:03:42,582 [MainThread] INFO gui.py:662 - === 推理结果返回 ===
+2026-06-04 18:03:42,592 [MainThread] INFO gui.py:699 - 分割完成, 检测到类别: [1]
+2026-06-04 18:06:34,265 [MainThread] INFO gui.py:764 - ========================================
+2026-06-04 18:06:34,265 [MainThread] INFO gui.py:765 - SegEarth-OV3 GUI 启动 (SAM 3)
+2026-06-04 18:06:34,265 [MainThread] INFO gui.py:766 - 参数: ckpt=sam3/sam3.pt, device=cuda, conf=0.50
+2026-06-04 18:06:34,265 [MainThread] INFO gui.py:767 - BPE: sam3/assets/bpe_simple_vocab_16e6.txt.gz
+2026-06-04 18:06:34,265 [MainThread] INFO gui.py:768 - 类别文件: None
+2026-06-04 18:06:34,266 [MainThread] INFO gui.py:769 - CUDA 可用: True
+2026-06-04 18:06:34,267 [MainThread] INFO gui.py:771 - GPU: NVIDIA GeForce RTX 5090 D
+2026-06-04 18:06:34,267 [MainThread] INFO gui.py:772 - GPU 显存: 31.8 GB
+2026-06-04 18:06:34,267 [MainThread] INFO gui.py:773 - ========================================
+2026-06-04 18:06:34,353 [MainThread] INFO gui.py:779 - 窗口已显示，进入事件循环
+2026-06-04 18:06:36,163 [MainThread] INFO gui.py:545 - === 开始加载 SAM 3 模型 ===
+2026-06-04 18:06:36,163 [MainThread] INFO gui.py:546 - ckpt=sam3/sam3.pt, bpe=sam3/assets/bpe_simple_vocab_16e6.txt.gz, device=cuda, conf=0.50
+2026-06-04 18:06:36,166 [Dummy-1] INFO gui.py:92 - ModelLoadWorker 开始执行, ckpt=sam3/sam3.pt, device=cuda
+2026-06-04 18:06:37,314 [Dummy-1] DEBUG nms.py:16 - Falling back to triton or CPU mask NMS implementation -- please install `torch_generic_nms` via
+	pip uninstall -y torch_generic_nms; TORCH_CUDA_ARCH_LIST="8.0 9.0" pip install git+https://github.com/ronghanghu/torch_generic_nms
+2026-06-04 18:06:37,626 [MainThread] DEBUG gui.py:495 - 文件浏览对话框: title='选择图片', target=
+2026-06-04 18:06:40,890 [MainThread] INFO gui.py:502 - 选择图片: E:/xzkjxm/VQA/SamSeg/resources/image.png
+2026-06-04 18:06:40,895 [MainThread] DEBUG PngImagePlugin.py:201 - STREAM b'IHDR' 16 13
+2026-06-04 18:06:40,895 [MainThread] DEBUG PngImagePlugin.py:201 - STREAM b'sRGB' 41 1
+2026-06-04 18:06:40,895 [MainThread] DEBUG PngImagePlugin.py:201 - STREAM b'gAMA' 54 4
+2026-06-04 18:06:40,895 [MainThread] DEBUG PngImagePlugin.py:201 - STREAM b'pHYs' 70 9
+2026-06-04 18:06:40,895 [MainThread] DEBUG PngImagePlugin.py:201 - STREAM b'IDAT' 91 65445
+2026-06-04 18:06:43,468 [Dummy-1] INFO gui.py:98 - ModelLoadWorker 完成, 耗时 7.30 秒
+2026-06-04 18:06:43,468 [MainThread] INFO gui.py:564 - === SAM 3 模型加载完成 ===
+2026-06-04 18:06:49,897 [MainThread] INFO gui.py:581 - === 开始分割 ===
+2026-06-04 18:06:49,897 [MainThread] INFO gui.py:582 - 图片: E:/xzkjxm/VQA/SamSeg/resources/image.png
+2026-06-04 18:06:49,897 [MainThread] INFO gui.py:583 - 类别提示: 'building,road'
+2026-06-04 18:06:49,897 [MainThread] INFO gui.py:604 - 类别数: 3, 查询数: 2
+2026-06-04 18:06:49,900 [Dummy-2] INFO gui.py:150 - InferenceWorker 开始执行, image=E:/xzkjxm/VQA/SamSeg/resources/image.png, num_cls=3, num_queries=2
+2026-06-04 18:06:49,900 [Dummy-2] DEBUG PngImagePlugin.py:201 - STREAM b'IHDR' 16 13
+2026-06-04 18:06:49,900 [Dummy-2] DEBUG PngImagePlugin.py:201 - STREAM b'sRGB' 41 1
+2026-06-04 18:06:49,900 [Dummy-2] DEBUG PngImagePlugin.py:201 - STREAM b'gAMA' 54 4
+2026-06-04 18:06:49,901 [Dummy-2] DEBUG PngImagePlugin.py:201 - STREAM b'pHYs' 70 9
+2026-06-04 18:06:49,901 [Dummy-2] DEBUG PngImagePlugin.py:201 - STREAM b'IDAT' 91 65445
+2026-06-04 18:06:49,907 [Dummy-2] INFO gui.py:162 -     图片尺寸: 677x482
+2026-06-04 18:06:49,907 [Dummy-2] INFO gui.py:165 -     开始多轮迭代推理 (max=10, target=95%)...
+2026-06-04 18:06:51,215 [Dummy-2] INFO gui.py:176 -     后处理完成
+2026-06-04 18:06:51,230 [Dummy-2] INFO gui.py:207 -     推理完成, 耗时 1.33 秒, 检测到类别: [1, 2]
+2026-06-04 18:06:51,231 [MainThread] INFO gui.py:696 - === 推理结果返回 ===
+2026-06-04 18:06:51,235 [MainThread] INFO gui.py:733 - 分割完成, 检测到类别: [1, 2]
+2026-06-04 18:06:57,895 [MainThread] INFO gui.py:581 - === 开始分割 ===
+2026-06-04 18:06:57,896 [MainThread] INFO gui.py:582 - 图片: E:/xzkjxm/VQA/SamSeg/resources/image.png
+2026-06-04 18:06:57,896 [MainThread] INFO gui.py:583 - 类别提示: 'building,road'
+2026-06-04 18:06:57,896 [MainThread] INFO gui.py:604 - 类别数: 3, 查询数: 2
+2026-06-04 18:06:57,897 [Dummy-3] INFO gui.py:150 - InferenceWorker 开始执行, image=E:/xzkjxm/VQA/SamSeg/resources/image.png, num_cls=3, num_queries=2
+2026-06-04 18:06:57,898 [Dummy-3] DEBUG PngImagePlugin.py:201 - STREAM b'IHDR' 16 13
+2026-06-04 18:06:57,898 [Dummy-3] DEBUG PngImagePlugin.py:201 - STREAM b'sRGB' 41 1
+2026-06-04 18:06:57,898 [Dummy-3] DEBUG PngImagePlugin.py:201 - STREAM b'gAMA' 54 4
+2026-06-04 18:06:57,898 [Dummy-3] DEBUG PngImagePlugin.py:201 - STREAM b'pHYs' 70 9
+2026-06-04 18:06:57,898 [Dummy-3] DEBUG PngImagePlugin.py:201 - STREAM b'IDAT' 91 65445
+2026-06-04 18:06:57,904 [Dummy-3] INFO gui.py:162 -     图片尺寸: 677x482
+2026-06-04 18:06:57,904 [Dummy-3] INFO gui.py:165 -     开始多轮迭代推理 (max=10, target=95%)...
+2026-06-04 18:06:59,023 [Dummy-3] INFO gui.py:176 -     后处理完成
+2026-06-04 18:06:59,039 [Dummy-3] INFO gui.py:207 -     推理完成, 耗时 1.14 秒, 检测到类别: [1, 2]
+2026-06-04 18:06:59,040 [MainThread] INFO gui.py:696 - === 推理结果返回 ===
+2026-06-04 18:06:59,044 [MainThread] INFO gui.py:733 - 分割完成, 检测到类别: [1, 2]
+2026-06-04 18:07:05,545 [MainThread] INFO gui.py:581 - === 开始分割 ===
+2026-06-04 18:07:05,545 [MainThread] INFO gui.py:582 - 图片: E:/xzkjxm/VQA/SamSeg/resources/image.png
+2026-06-04 18:07:05,545 [MainThread] INFO gui.py:583 - 类别提示: 'building,road'
+2026-06-04 18:07:05,545 [MainThread] INFO gui.py:604 - 类别数: 3, 查询数: 2
+2026-06-04 18:07:05,547 [Dummy-4] INFO gui.py:150 - InferenceWorker 开始执行, image=E:/xzkjxm/VQA/SamSeg/resources/image.png, num_cls=3, num_queries=2
+2026-06-04 18:07:05,548 [Dummy-4] DEBUG PngImagePlugin.py:201 - STREAM b'IHDR' 16 13
+2026-06-04 18:07:05,548 [Dummy-4] DEBUG PngImagePlugin.py:201 - STREAM b'sRGB' 41 1
+2026-06-04 18:07:05,548 [Dummy-4] DEBUG PngImagePlugin.py:201 - STREAM b'gAMA' 54 4
+2026-06-04 18:07:05,548 [Dummy-4] DEBUG PngImagePlugin.py:201 - STREAM b'pHYs' 70 9
+2026-06-04 18:07:05,548 [Dummy-4] DEBUG PngImagePlugin.py:201 - STREAM b'IDAT' 91 65445
+2026-06-04 18:07:05,553 [Dummy-4] INFO gui.py:162 -     图片尺寸: 677x482
+2026-06-04 18:07:05,553 [Dummy-4] INFO gui.py:165 -     开始多轮迭代推理 (max=10, target=95%)...
+2026-06-04 18:07:06,625 [Dummy-4] INFO gui.py:176 -     后处理完成
+2026-06-04 18:07:06,641 [Dummy-4] INFO gui.py:207 -     推理完成, 耗时 1.09 秒, 检测到类别: [1, 2]
+2026-06-04 18:07:06,641 [MainThread] INFO gui.py:696 - === 推理结果返回 ===
+2026-06-04 18:07:06,646 [MainThread] INFO gui.py:733 - 分割完成, 检测到类别: [1, 2]
+2026-06-04 18:07:10,995 [MainThread] INFO gui.py:581 - === 开始分割 ===
+2026-06-04 18:07:10,995 [MainThread] INFO gui.py:582 - 图片: E:/xzkjxm/VQA/SamSeg/resources/image.png
+2026-06-04 18:07:10,995 [MainThread] INFO gui.py:583 - 类别提示: 'building,road'
+2026-06-04 18:07:10,996 [MainThread] INFO gui.py:604 - 类别数: 3, 查询数: 2
+2026-06-04 18:07:10,997 [Dummy-5] INFO gui.py:150 - InferenceWorker 开始执行, image=E:/xzkjxm/VQA/SamSeg/resources/image.png, num_cls=3, num_queries=2
+2026-06-04 18:07:10,997 [Dummy-5] DEBUG PngImagePlugin.py:201 - STREAM b'IHDR' 16 13
+2026-06-04 18:07:10,997 [Dummy-5] DEBUG PngImagePlugin.py:201 - STREAM b'sRGB' 41 1
+2026-06-04 18:07:10,997 [Dummy-5] DEBUG PngImagePlugin.py:201 - STREAM b'gAMA' 54 4
+2026-06-04 18:07:10,998 [Dummy-5] DEBUG PngImagePlugin.py:201 - STREAM b'pHYs' 70 9
+2026-06-04 18:07:10,998 [Dummy-5] DEBUG PngImagePlugin.py:201 - STREAM b'IDAT' 91 65445
+2026-06-04 18:07:11,003 [Dummy-5] INFO gui.py:162 -     图片尺寸: 677x482
+2026-06-04 18:07:11,003 [Dummy-5] INFO gui.py:165 -     开始多轮迭代推理 (max=10, target=95%)...
+2026-06-04 18:07:11,975 [Dummy-5] INFO gui.py:176 -     后处理完成
+2026-06-04 18:07:11,991 [Dummy-5] INFO gui.py:207 -     推理完成, 耗时 0.99 秒, 检测到类别: [1, 2]
+2026-06-04 18:07:11,992 [MainThread] INFO gui.py:696 - === 推理结果返回 ===
+2026-06-04 18:07:11,996 [MainThread] INFO gui.py:733 - 分割完成, 检测到类别: [1, 2]

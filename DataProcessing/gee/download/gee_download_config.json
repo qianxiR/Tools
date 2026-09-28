@@ -1,0 +1,48 @@
+{
+  "project": "applied-pipe-453411-k9",
+  "assetListJson": "E:\\1代码\\模型\\gee\\数据下载\\矢量遍历下载数据\\gee_assets_list.json",
+  "assetTypeFilter": [
+    "TABLE"
+  ],
+  "skipAssets": [],
+  "downloadMode": "ask",
+  "featureIdField": null,
+  "commonIdFields": [
+    "HPBM",
+    "SKBM",
+    "hpbm",
+    "skbm",
+    "ID",
+    "id",
+    "FID",
+    "fid','QSDWMC','qsdwm'"
+  ],
+  "startDate": "2025-06-01",
+  "endDate": "2025-07-31",
+  "cloudFilter": 20,
+  "scale": 10,
+  "maxPixels": 10000000000000.0,
+  "bands": [
+    "B2",
+    "B3",
+    "B4",
+    "B8"
+  ],
+  "crs": "EPSG:4326",
+  "compositeMethod": "median",
+  "exportFolder": "GEE_Batch_Assets_Exports",
+  "fileNamePrefix": "Asset",
+  "featureFilePrefix": "Feature",
+  "maxConcurrentTasks": 20,
+  "checkInterval": 30,
+  "safeTaskThreshold": 2900,
+  "assetDelay": 15,
+  "featureDelay": 10,
+  "enableTaskTracking": false,
+  "taskStateFile": "task_state.json",
+  "autoResume": false,
+  "enableBatchMode": true,
+  "batchSize": 5,
+  "batchStart": 0,
+  "batchEnd": -1
+}

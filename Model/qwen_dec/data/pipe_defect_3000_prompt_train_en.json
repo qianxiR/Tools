@@ -1,0 +1,43 @@
+{
+  "prompt_role": "training",
+  "action_prompt": "Detect visible defects in a CCTV sewer pipe image",
+  "full_prompt": "Detect all visible, localizable defects in this single CCTV sewer-pipe image. Output one object for each defect that has direct visual evidence. Use only these 12 labels: AJ (unauthorized branch tie-in), BX (cross-section deformation), CJ (sediment on invert), CK (stepped offset joint), CR (wall penetration by an external object), FS (material corrosion), JG (wall scale buildup), PL (material fracture or continuity failure), SG (root intrusion), TJ (disconnected joint), TL (joint material loss), and ZW (foreign-object obstruction). CR means an external object penetrates the pipe wall and extends into the pipe cavity; identifiable roots are SG, and unattached objects inside the pipe are ZW. PL covers visible cracks, openings, tears, notches, holes, missing material, jagged broken edges, or lifted and folded liner/sheet material. Do not use CR for an ordinary wall crack. For every detected object, output bbox_2d as four integer coordinates [x1,y1,x2,y2] normalized to 0-1000, where x is relative to image width and y is relative to image height. Sort objects by y1 in ascending order. Return only a valid JSON array wrapped in <obj> and </obj>, with no explanation or Markdown. If no defect is directly visible, return <obj>[]</obj>.",
+  "label_codes": ["AJ", "BX", "CJ", "CK", "CR", "FS", "JG", "PL", "SG", "TJ", "TL", "ZW"],
+  "labels": ["AJ", "BX", "CJ", "CK", "CR", "FS", "JG", "PL", "SG", "TJ", "TL", "ZW"],
+  "label_en": ["Unauthorized branch tie-in", "Cross-section deformation", "Sediment on invert", "Stepped offset joint", "Wall penetration", "Material corrosion", "Wall scale buildup", "Material fracture", "Root intrusion", "Disconnected joint", "Joint material loss", "Foreign-object obstruction"],
+  "code_to_en": {
+    "AJ": "Unauthorized branch tie-in",
+    "BX": "Cross-section deformation",
+    "CJ": "Sediment on invert",
+    "CK": "Stepped offset joint",
+    "CR": "Wall penetration by an external object",
+    "FS": "Material corrosion",
+    "JG": "Wall scale buildup",
+    "PL": "Material fracture or continuity failure",
+    "SG": "Root intrusion",
+    "TJ": "Disconnected joint",
+    "TL": "Joint material loss",
+    "ZW": "Foreign-object obstruction"
+  },
+  "code_to_desc": {
+    "AJ": "支管暗接",
+    "BX": "变形",
+    "CJ": "沉积",
+    "CK": "错口",
+    "CR": "外来物穿透管壁并伸入管腔",
+    "FS": "腐蚀",
+    "JG": "结垢",
+    "PL": "材料连续性破坏",
+    "SG": "树根",
+    "TJ": "脱节",
+    "TL": "接口材料脱落",
+    "ZW": "障碍物"
+  },
+  "target_en": "urban sewer defects",
+  "scene_en": "single-frame urban sewer CCTV imagery",
+  "n_classes": 12,
+  "output_wrapper": "<obj>...</obj>",
+  "coordinate_format": "raw_integer_0_1000",
+  "source": "CJJ 181-2012; 数据_筛选3000 (YOLO)",
+  "note": "Training prompt. The output protocol and label order are shared with the inference prompt, while the instruction wording is intentionally shorter and more stable for supervised training."
+}

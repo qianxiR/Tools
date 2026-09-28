@@ -1,0 +1,13 @@
+langchain>=1.0.0
+langchain-community>=0.3.0
+langchain-text-splitters>=0.3.0
+langchain-chroma>=0.1.0
+dashscope>=1.17.0
+chromadb>=0.4.0
+tiktoken>=0.5.0
+
+# 可选依赖（根据使用的嵌入模型选择安装）
+# OpenAI 嵌入模型: langchain-openai>=0.1.0
+# HuggingFace 嵌入模型: sentence-transformers>=2.2.0, torch>=2.0.0
+# Ollama 嵌入模型: 需要先安装并运行 Ollama 服务
+

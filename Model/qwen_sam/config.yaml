@@ -1,0 +1,61 @@
+# QwenSam 最终统一配置（极简版：标准 SAM3-Adapter + cpdc 边缘细化）
+
+classes:
+  names: ["背景", "熔岩", "白云岩", "第四系", "坡积"]
+  label_mapping:
+    rongshi: 1
+    baiyun: 2
+    disixi: 3
+    poji: 4
+  palette_rgb:
+    0: [0, 0, 0]
+    1: [255, 64, 64]
+    2: [64, 160, 255]
+    3: [64, 200, 64]
+    4: [255, 200, 0]
+
+model:
+  image_size: 336
+  sam3_checkpoint: "E:\\rqx\\pre\\sam3\\sam3.pt"
+
+architecture:
+  edge_channels: 4
+  spatial_gate: true
+
+# train/val/infer 样本按原始整图编号划分
+dataset:
+  source_root: "F:\\岩石\\0820标注"
+  image_dir: "F:\\岩石\\拼图"
+  output_root: "F:\\岩石\\0820数据集"
+  tile_size: 256
+  overlap_ratio: 0.25
+  infer_stride: 256
+  edge_kernel_size: 3
+  splits:
+    train: [2, 3]
+    val: [4]
+    infer: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+
+training:
+  output_dir: "F:\\岩石\\runs\\exp_calss_edge"
+  steps: 1000
+  batch_size: 4
+  gradient_accumulation: 4
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  validation_interval: 500
+  log_interval: 10
+  device: "cuda"
+  edge_loss_weight: 0.5
+  seed: 1337
+
+inference:
+  run_dir: "F:\\岩石\\runs\\exp_calss_edge"
+  splits: ["val", "infer"]
+  checkpoint: "best_model.torch"
+  device: "cuda"
+  output_dir_name: "vis"
+  smooth_kernel: 3
+  postprocess_area_threshold: 2056
+  min_area: 2056
+  max_hole_area: 2056

@@ -1,0 +1,462 @@
+# 变化检测实例级后处理与误检过滤功能开发需求
+
+## 一、现状确认
+
+在功能开发前，需要确认以下问题。
+
+### 1. 实例检索能力
+
+当前变化检测流程输出的 T1/T2 变化掩码：
+
+* 是否已经支持实例级（Instance Level）检索；
+* 是否能够获取每个独立变化区域（Connected Component）的：
+
+  * 实例ID；
+  * 类别信息；
+  * 像素范围；
+  * 外接框（BBox）；
+  * 面积。
+
+### 2. 掩码颜色定义
+
+当前输出掩码的颜色映射规则是什么。
+
+需确认是否符合以下类别颜色规范：
+
+| 类别         | 颜色  |
+| ---------- | --- |
+| background | 白色  |
+| bareland   | 褐色  |
+| road       | 紫色  |
+| vegetation | 深绿色 |
+| farmland   | 绿色  |
+| water      | 蓝色  |
+| building   | 红色  |
+
+### 3. Prompt同义词支持
+
+需确认类别Prompt是否支持同义词映射。
+
+例如：
+
+```text
+building
+house
+residential area
+construction
+```
+
+均可映射至：
+
+```text
+building
+```
+
+同理：
+
+```text
+vegetation
+tree
+forest
+green land
+grassland
+```
+
+统一映射至：
+
+```text
+vegetation
+```
+
+---
+
+# 二、部署要求
+
+## 后处理模块位置
+
+新增后处理模块统一放置于项目根目录。
+
+例如：
+
+```text
+project_root/
+├── tools/
+├── ...
+```
+
+
+
+---
+
+# 三、实例级误检过滤流程
+
+## Step1 实例提取
+
+使用脚本：
+
+```text
+E:\xzkjxm\VLLM\SamSeg\tools\cd1_extract_regions.py
+```
+
+对变化检测结果进行实例提取。
+
+### 输入
+
+```text
+T1影像
+T2影像
+变化掩码
+```
+
+### 处理内容
+
+对每个变化实例：
+
+1. 提取实例Mask；
+2. 裁剪T1区域；
+3. 裁剪T2区域；
+4. 保存实例区域文件；
+5. 生成实例级属性信息。
+
+### JSON格式扩展
+
+需在现有JSON结构基础上增加：
+
+```json
+{
+    "instance_id": 1,
+    "category": "building",
+    "bbox": [x1, y1, x2, y2],
+    "area": 1234,
+    "keep": true
+}
+```
+
+新增字段：
+
+| 字段       | 类型     | 说明   |
+| -------- | ------ | ---- |
+| category | string | 实例类别 |
+| keep     | bool   | 是否保留 |
+
+默认：
+
+```json
+{
+    "keep": true
+}
+```
+
+---
+
+## Step2 RemoteCLIP语义验证
+
+对每个变化实例进行RemoteCLIP推理。
+
+### 输入
+
+```text
+实例图像
+实例类别(category)
+```
+
+### 推理内容
+
+计算：
+
+```text
+Image Feature
+Text Feature
+```
+
+类别文本Prompt与实例图像特征的相似度。
+
+例如：
+
+```text
+building
+road
+water
+vegetation
+farmland
+bareland
+```
+
+### 输出
+
+```json
+{
+    "clip_score": 0.82
+}
+```
+
+### 阈值过滤
+
+配置参数：
+
+```python
+CLIP_THRESHOLD = 0.5
+```
+
+规则：
+
+```text
+score >= threshold
+    keep = true
+
+score < threshold
+    keep = false
+```
+
+更新JSON：
+
+```json
+{
+    "instance_id": 1,
+    "category": "building",
+    "clip_score": 0.23,
+    "keep": false
+}
+```
+
+---
+
+## Step3 Qwen-VL二次判别
+
+对于每个实例，进一步利用大模型进行辅助判断。
+
+### API Key
+
+从环境变量读取：
+
+```python
+DASHSCOPE_API_KEY
+```
+
+### 模型
+
+```text
+qwen-vl-plus
+```
+
+### 输入内容
+
+实例对应：
+
+```text
+T1裁剪图
+T2裁剪图
+类别信息
+RemoteCLIP相似度结果
+```
+
+### 示例Prompt
+
+```text
+You are a remote sensing change detection expert.
+
+Category:
+building
+
+RemoteCLIP score:
+0.41
+
+Determine whether this region truly belongs to the specified category and whether the detected change is valid.
+
+Return:
+{
+  "keep": true/false,
+  "reason": ""
+}
+```
+
+### 返回格式
+
+```json
+{
+    "keep": true,
+    "reason": "building clearly appears in T2"
+}
+```
+
+### JSON更新
+
+更新原始实例记录：
+
+```json
+{
+    "instance_id": 1,
+    "category": "building",
+    "clip_score": 0.41,
+    "keep": true,
+    "reason": "building clearly appears in T2"
+}
+```
+
+### 判定优先级
+
+Qwen-VL结果优先级高于RemoteCLIP。
+
+最终保留逻辑：
+
+```text
+以Qwen-VL结果为准
+```
+
+---
+
+## Step4 重建最终掩码
+
+新增后处理功能。
+
+### 输入
+
+```text
+原始变化掩码
+instances.json
+```
+
+### 处理逻辑
+
+遍历全部实例：
+
+```python
+if keep == True:
+    保留实例
+
+if keep == False:
+    删除实例
+```
+
+等价于：
+
+```text
+FinalMask
+=
+OriginalMask
+-
+FalseInstances
+```
+
+### 输出
+
+生成新的变化检测结果：
+
+```text
+final_mask.png
+```
+
+仅保留：
+
+```text
+keep = true
+```
+
+对应的变化实例。
+
+---
+
+# 四、输出要求
+
+## 输出目录结构
+
+输出文件及中间结果按照当前项目目录结构进行组织和存储，不额外新增固定目录层级。
+
+新增功能产生的文件应遵循现有工程的目录规范，相关实例裁剪结果、JSON记录文件、过滤结果及最终掩码文件存放于当前流程对应的输出目录中，与现有变化检测结果保持一致。
+
+## 输出内容
+
+新增流程需输出以下内容：
+
+| 文件类型             | 内容说明                       |
+| ---------------- | -------------------------- |
+| 实例裁剪结果           | 每个变化实例对应的T1、T2及Mask裁剪结果    |
+| instances.json   | 记录实例属性及过滤状态                |
+| process_log.json | 记录RemoteCLIP及Qwen-VL推理过程日志 |
+| final_mask.png   | 经过误检过滤后的最终变化掩码             |
+
+### instances.json记录内容
+
+需包含：
+
+* instance_id
+* category
+* bbox
+* area
+* clip_score
+* keep
+* reason
+
+示例：
+
+```json
+{
+    "instance_id": 1,
+    "category": "building",
+    "bbox": [x1, y1, x2, y2],
+    "area": 1234,
+    "clip_score": 0.82,
+    "keep": true,
+    "reason": "Confirmed by Qwen-VL"
+}
+```
+
+### 兼容性要求
+
+开发过程中不得修改现有推理流程输出结构。
+
+仅在对应输出目录下补充：
+
+1. 实例级裁剪结果；
+2. 实例属性JSON文件；
+3. 过滤日志文件；
+4. 最终修正后的变化掩码文件。
+
+必须保证与现有变化检测推理流程完全兼容，不影响原有结果输出逻辑。
+
+---
+
+# 五、整体流程
+
+```text
+变化检测结果
+        │
+        ▼
+实例提取(cd1_extract_regions.py)
+        │
+        ▼
+生成instances.json
+        │
+        ▼
+RemoteCLIP相似度验证
+        │
+        ▼
+Qwen-VL二次判断
+        │
+        ▼
+更新instances.json
+        │
+        ▼
+删除keep=False实例
+        │
+        ▼
+重建Mask
+        │
+        ▼
+final_mask.png
+```
+
+---
+
+# 六、最终目标
+
+构建一套面向变化检测结果的实例级后处理框架，实现：
+
+* 变化实例自动提取；
+* 实例类别记录；
+* RemoteCLIP语义一致性验证；
+* Qwen-VL视觉语义复核；
+* 自动误检实例剔除；
+* 最终变化掩码自动重建。
+
+最终输出的变化检测结果应具备更高的类别一致性、更低的误检率以及更好的可解释性。

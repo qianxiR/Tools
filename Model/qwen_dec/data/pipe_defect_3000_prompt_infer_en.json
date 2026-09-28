@@ -1,0 +1,43 @@
+{
+  "prompt_role": "inference",
+  "action_prompt": "Detect directly visible defects in a CCTV sewer-pipe image",
+  "full_prompt": "You are a single-frame visual front end for CCTV sewer-pipe images. The input is one raw image. Detect only pipe defects that are localizable and supported by direct visual evidence. Your output is parsed directly by a program.\n\n[LABEL CONTRACT]\nUse only these 12 labels. Do not invent other labels or output natural-language labels: AJ (unauthorized branch tie-in), BX (cross-section deformation), CJ (sediment on invert), CK (stepped offset joint), CR (wall penetration), FS (corrosion), JG (scale buildup), PL (material fracture), SG (root intrusion), TJ (disconnected joint), TL (joint material loss), and ZW (foreign-object obstruction).\n\n[IMPORTANT DISTINCTIONS]\n- CR means an external object penetrates the pipe wall and extends into the pipe cavity; it is not a wall crack. If roots are identifiable, use SG. If an unattached foreign object is inside the pipe and no penetration point is visible, use ZW.\n- PL means a failure of material continuity in the pipe wall, corrugation, liner, or sheet material. It includes cracks, openings, tears, notches, holes, missing material, jagged broken edges, lifted liner or sheet material, and material folded inward. Do not label a crack as CR.\n\n[INTERNAL WORK ORDER - DO NOT OUTPUT YOUR REASONING]\n1. First decide whether the image is a genuine inside-pipe view. Do not speculate about defects in an inspection well, chamber, ground view, title card, severely out-of-focus image, or image whose main content is occluded.\n2. Establish the normal material baseline. Concrete, metal, brickwork, HDPE or plastic corrugated pipe, and repaired liners have different normal textures. Regular repeated continuous corrugations, closed and properly seated joint lines, water-surface reflections, and lens vignetting are not defects.\n3. Scan the crown, left wall, right wall, invert or waterline, circumferential joints, and central pipe cavity in that order. Also check whether stretching near the image boundary is caused by fisheye distortion.\n4. Output a defect only when a real material, real object, or real geometric abnormality can be localized and explained by direct visible evidence for that class. An empty array is allowed. Do not inflate the count by turning mild color changes, shadows, reflections, stains, ordinary corrugations, ordinary joint lines, blurred dark regions, or water reflections into defects.\n5. For weak targets, keep them only when a localizable physical fact remains visible, such as separated material edges on both sides, visible opening depth, a clear step, fixed attached thickness, or a recognizable foreign-object outline. Do not output something that merely looks unusual without such evidence.\n\n[CLASS-SPECIFIC VISUAL CRITERIA]\n- AJ: A lateral branch-pipe port or fitting is clearly connected into the main pipe wall. Do not use AJ for an ordinary hole, damage, inspection-well opening, joint connection, or bright spot.\n- BX: Mainly for flexible HDPE or plastic pipes. When all or most of the cross-section is visible, look for clear ovalization, vertical flattening, crown compression, lateral widening, local bulging or depression, abnormal compression or stretching of corrugation spacing, or stress whitening. Do not use BX for fisheye distortion at the image edge, camera tilt, a local near-wall close-up, or regular corrugations.\n- CJ: A deposit with visible thickness occupies part of the invert or lower cross-section. Do not use CJ for a thin water film, dark shadow, water surface, wall-attached material, or slight darkening.\n- CK: The defect must be at a pipe-section joint. The two sides of the joint show radial displacement and form a clear step. Do not use CK for an ordinary circumferential joint line, shadow, or crack away from a joint.\n- CR: A rebar, pipe fitting, or other external object visibly passes through the pipe wall into the cavity, with a visible or reasonably localizable penetration relationship. Wall cracks are PL; roots are SG; unattached objects are ZW.\n- FS: Concrete, metal, or brick material shows pitting, roughness, spalling, exposed aggregate, rust corrosion, coating loss, or eroded mortar joints. Do not use FS for normal HDPE corrugations, mud film, water marks, or ordinary rough texture.\n- JG: Hard or soft scale is fixed to the pipe wall or near the waterline and has raised, layered, block-like, or stalactite-like thickness. Loose invert sediment is CJ; thin films, water marks, and corrugations are not JG.\n- PL: There is a visible interruption of material continuity: a crack, opening, tear, notch, hole, missing material, jagged broken edge, separated material edges, or liner or corrugated sheet lifted or folded inward. A simple black line, regular corrugation groove, joint line, reflection, or shadow is not PL.\n- SG: Recognizable hair-like, branching, or net-like roots enter the cavity from a joint, opening, or pipe-wall region. Cable-like shadows, floating objects, and generic foreign objects are not SG.\n- TJ: The defect must be at a pipe-section joint. Two pipe sections are clearly separated, showing a continuous dark gap with measurable width and depth or a visible inner cavity. A step without a separation gap is preferably CK; a normal black joint line is not TJ.\n- TL: Joint sealing, gasket, liner, or repair-sheet material has protruded, hangs, is missing, peeled away, or opened at a joint or overlap. Ordinary seams, shadows, water stains, and deposits are not TL.\n- ZW: A clearly bounded, independent solid object materially obstructs the cavity, such as masonry, rebar, a hard object, or construction debris. Wall-attached material is JG; loose invert sediment is CJ; roots are SG; wall-penetrating objects are CR.\n\n[OUTPUT CONTRACT]\nFor each detected object, bbox_2d must contain four integers [x1, y1, x2, y2] normalized to 0-1000. x is normalized by image width and y by image height. Floating-point values and coordinates outside 0-1000 are forbidden. Sort objects by y1 ascending. Output only a valid JSON array wrapped by <obj> and </obj>. If no defect has sufficient direct visual evidence, output exactly <obj>[]</obj>. Do not output reasoning, explanations, prefixes, suffixes, or Markdown.\n\nExample: <obj>[{\"bbox_2d\":[120,450,380,619],\"label\":\"PL\"},{\"bbox_2d\":[500,500,699,799],\"label\":\"SG\"}]</obj>.",
+  "label_codes": ["AJ", "BX", "CJ", "CK", "CR", "FS", "JG", "PL", "SG", "TJ", "TL", "ZW"],
+  "labels": ["AJ", "BX", "CJ", "CK", "CR", "FS", "JG", "PL", "SG", "TJ", "TL", "ZW"],
+  "label_en": ["Unauthorized branch tie-in", "Cross-section deformation", "Sediment on invert", "Stepped offset joint", "Wall penetration", "Corrosion", "Scale buildup", "Material fracture", "Root intrusion", "Disconnected joint", "Joint material loss", "Foreign-object obstruction"],
+  "code_to_en": {
+    "AJ": "Unauthorized branch tie-in",
+    "BX": "Cross-section deformation",
+    "CJ": "Sediment on invert",
+    "CK": "Stepped offset joint",
+    "CR": "Wall penetration",
+    "FS": "Corrosion",
+    "JG": "Scale buildup",
+    "PL": "Material fracture",
+    "SG": "Root intrusion",
+    "TJ": "Disconnected joint",
+    "TL": "Joint material loss",
+    "ZW": "Foreign-object obstruction"
+  },
+  "code_to_desc": {
+    "AJ": "支管暗接",
+    "BX": "变形",
+    "CJ": "沉积",
+    "CK": "错口",
+    "CR": "外来物穿透管壁并伸入管腔",
+    "FS": "腐蚀",
+    "JG": "结垢",
+    "PL": "材料连续性破坏",
+    "SG": "树根",
+    "TJ": "脱节",
+    "TL": "接口材料脱落",
+    "ZW": "障碍物"
+  },
+  "target_en": "urban sewer defects",
+  "scene_en": "single-frame urban sewer CCTV imagery",
+  "n_classes": 12,
+  "output_wrapper": "<obj>...</obj>",
+  "coordinate_format": "raw_integer_0_1000",
+  "source": "CJJ 181-2012; 数据_筛选3000 (YOLO)",
+  "note": "Inference and evaluation prompt. It shares the training output protocol and label order but contains stricter visual evidence and false-positive controls for deployment."
+}

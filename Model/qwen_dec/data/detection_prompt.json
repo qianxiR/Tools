@@ -1,0 +1,18 @@
+{
+  "action_prompt": "Detect landslide targets in mountainous scenes",
+  "full_prompt": "Detect landslide targets in mountainous scenes. Output a valid JSON array wrapped by <obj> and </obj>. Each target must be {\"bbox_2d\":[x1,y1,x2,y2],\"label\":\"landslide\"}, where every coordinate is an integer normalized to 0-1000. If no target exists, output <obj>[]</obj>.",
+  "label": "landslide",
+  "label_codes": ["landslide"],
+  "labels": ["landslide"],
+  "target_cn": "滑坡",
+  "scene_cn": "山地场景",
+  "target_en": "landslide",
+  "scene_en": "mountainous scenes",
+  "source": "qwen:qwen-vl-plus",
+  "model": "qwen-vl-plus",
+  "jsonl_files": [
+    "H:\\西藏遥感Agent\\VLLM\\QwenDec\\data\\landslide_qwenvl.jsonl",
+    "H:\\西藏遥感Agent\\VLLM\\QwenDec\\data\\landslide_qwenvl_train.jsonl",
+    "H:\\西藏遥感Agent\\VLLM\\QwenDec\\data\\landslide_qwenvl_val.jsonl"
+  ]
+}

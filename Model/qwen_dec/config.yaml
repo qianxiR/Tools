@@ -1,0 +1,60 @@
+# ============================================================================
+# QwenDec v10-A 训练配置（Qwen 仅 decoder LoRA + SigLIP2 主干 LoRA 微调 + 原生视觉塔冻结保留）
+#
+# 优先级：环境变量显式设置 > 本文件 > train_qwen3vl_lora.py 代码默认值
+#       （环境变量名 = 大写化的键路径，如 output_dir -> OUTPUT_DIR；
+#        分组键用下划线拼接，如 text_lora.r -> TEXT_LORA_R）
+# 修改本文件后直接重启训练生效；
+# 更换 train_prompt_json 后须重新生成 JSONL 并重新训练。
+# ============================================================================
+
+# ---- 模型与数据路径 ----
+model_path: F:/pre/Qwen3-VL-4B-Instruct
+siglip_model_path: F:/pre/siglip2-base-patch16-224
+
+dataset_root: F:/管网/数据_筛选3000
+train_jsonl: null            # null -> <dataset_root>/pipe_qwenvl_train.jsonl
+val_jsonl: null              # null -> <dataset_root>/pipe_qwenvl_val.jsonl
+train_prompt_json: null      # null -> 仓库 data/pipe_defect_3000_prompt_train_en.json
+
+# ---- 输出（runs/版本/{train,test} 结构） ----（当前：v10 = v8 全部结构 + SigLIP2 LoRA）
+output_dir: F:/管网/runs/pipe_defect_lora_v10_siglip2_base
+resume_from_checkpoint: ""   # "latest" 或具体 checkpoint 路径；空 = 从头训练
+
+# ---- 日志 ----
+swanlab_project: qwen3vl-pipe-defect-detect
+swanlab_mode: local          # local / disabled
+
+# ---- Qwen 语言 decoder LoRA（原生视觉塔已停用不挂 LoRA） ----
+text_lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+
+# ---- SigLIP2 主干 LoRA（冻结主干上的低秩适配，encoder 12 层 x 6 目标） ----
+siglip_lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+
+# ---- 训练超参 ----
+epochs: 20                        # 默认 20 epoch（2026-08-26 起由 30 下调；val best 多在 epoch 9-15 见顶，后段平台化）
+per_device_train_batch_size: 2   # 3000 正式实验对齐 v8 原口径 2×4=8（唯一变量 = SigLIP LoRA）
+gradient_accumulation_steps: 4   # 有效 batch = 1×4 = 4
+learning_rate: 1.0e-4             # 所有参数组统一 lr（constant 调度）
+lr_scheduler_type: constant
+warmup_steps: 0
+weight_decay: 0.01                # 仅 external 组生效；LoRA 组 wd=0
+max_grad_norm: 1.0
+precision: bf16                   # 固定 bf16；use_4bit 在 transformers 4.57.6 下会直接抛错
+use_4bit: false
+optim: paged_adamw_8bit
+chunked_ce: true                # 训练 loss 走分块 CE（不物化 151936 全词表 logits，削减激活峰值）
+
+# ---- 数据与评估控制 ----
+augment_train: true               # 训练集 50% 水平翻转（bbox 同步变换）
+norm_modules_to_save: false       # norm 全量微调（消融证明有害，默认关闭）
+val_eval_interval: 3              # 每 3 epoch 评估一次 val F1
+val_eval_size: 300                # val 子采样上限（300 = 当前 val 全量）
+f1_early_stopping_patience: 0     # 0 = 关闭早停；>0 = 连续 N 次评估无提升终止
+save_total_limit: 2               # checkpoint 保留数量（每 epoch 保存）
